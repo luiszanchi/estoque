@@ -6,7 +6,7 @@ require('dotenv').config()
 export const databaseProviders = [
     {
       provide: 'SEQUELIZE',
-      useFactory: async () => {
+      useFactory: () => {
         const sequelize = new Sequelize({
             dialect: 'mysql',
             host: process.env.DB_HOST,
@@ -16,8 +16,7 @@ export const databaseProviders = [
             database: process.env.DB_SCHEMA,
         });
         setModels(sequelize);
-        await sequelize.sync();
-        return sequelize;
+        return sequelize.sync();
       },
     },
   ];

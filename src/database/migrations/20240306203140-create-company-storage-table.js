@@ -9,31 +9,25 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-
     await queryInterface.createTable(
-      'users', 
-      { 
+      'company_storage',
+      {
         id: {
           type: Sequelize.BIGINT.UNSIGNED,
           autoIncrement: true,
           allowNull: false,
           primaryKey: true
         },
-        first_name: {
+        name: {
           type: Sequelize.STRING,
           allowNull: false
         },
-        last_name: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        email: {
-          type: Sequelize.STRING,
-          allowNull: false
-        },
-        password: {
-          type: Sequelize.STRING,
-          allowNull: false
+        company_id: {
+          type: Sequelize.BIGINT.UNSIGNED,
+          references: {
+            model: 'company',
+            key: 'id'
+          }
         },
         created_at: {
           type: Sequelize.DATE,
@@ -48,21 +42,9 @@ module.exports = {
         deleted_at: {
           type: Sequelize.DATE,
           allowNull: true
-        }
-      },
-      // {
-      //   indexes:[
-      //     {
-      //       unique: false,
-      //       fields:[
-      //         'email' , 
-      //         'last_name', 
-      //         'first_name'
-      //       ]
-      //     }
-      //   ]
-      // }
-    );
+        } 
+      }
+    )
   },
 
   async down (queryInterface, Sequelize) {
@@ -72,6 +54,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('company_storage')
   }
 };

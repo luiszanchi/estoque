@@ -1,4 +1,4 @@
-import { CnpjInvalidException } from "src/exceptions/cnpj.exception";
+import { CnpjInvalidException } from "../exceptions/cnpj.exception";
 
 export class Cnpj {
     public readonly value: string;

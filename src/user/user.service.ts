@@ -3,19 +3,21 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from "./user.model";
 import * as bcrypt from 'bcrypt';
 import { jwtConstants } from "../config/jwt.constants";
+import { userProvideRepository } from "./user.repository";
+import { UserCreateDto } from "./user.dto";
 
 @Injectable()
 export class UserService {
     public constructor(
-        @Inject('USER_REPOSITORY')
+        @Inject(userProvideRepository)
         private userRepository: typeof User,
         private jwtService: JwtService
     )
     {}
 
-    public async createUser(input: object): Promise<User>
+    public async createUser(userCreateDto: UserCreateDto): Promise<User>
     {
-        return await this.userRepository.create(input);
+        return await this.userRepository.create(userCreateDto);
     }
 
     public async getAuthUserByEmailPassword(email: string, password: string): Promise<string>

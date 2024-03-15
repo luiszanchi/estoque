@@ -11,21 +11,21 @@ module.exports = {
      */
     await queryInterface.createTable('user_permissions', { 
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
       },
 
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT.UNSIGNED,
         references: {
           model: 'users',
           key: 'id'
         }
       },
 
-      permission: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },

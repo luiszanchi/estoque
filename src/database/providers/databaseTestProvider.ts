@@ -5,11 +5,10 @@ import { setModels } from './databaseModels';
 export const databaseTestProviders = [
     {
       provide: 'SEQUELIZE',
-      useFactory: async () => {
+      useFactory: () => {
         const sequelize = new Sequelize('sqlite::memory:');
         setModels(sequelize);
-        await sequelize.sync();
-        return sequelize;
+        return sequelize.sync();
       },
     },
   ];

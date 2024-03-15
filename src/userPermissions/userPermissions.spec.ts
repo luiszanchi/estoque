@@ -1,19 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseTestModule } from '../database/databaseTestModule';
-import { User } from '../user/user.model';
 import { createUserJest } from '../helpers/jest/createUserJest';
-import { userRepository } from '../user/user.repository';
 import { userPermissionsRepository } from './userPermissions.repository';
 import { UserPermissionsService } from './userPermissions.service';
 import { adminPermission, userPermission } from './userPermissions.const';
+import { userRepositoryProvider } from '../user/user.repository';
+import { permissionRepository } from '../permissions/permission.repository';
 
-
-
-describe('UserController', () => {
+describe('UserPermissions', () => {
   let userPermissionsService: UserPermissionsService;
   let app: TestingModule;
-  
-  let user: User;
 
   beforeEach(async () => {
     app = await Test.createTestingModule({
@@ -23,19 +19,22 @@ describe('UserController', () => {
         DatabaseTestModule
       ],
       providers: [
-        userRepository,
+        userRepositoryProvider,
+        permissionRepository,
         userPermissionsRepository,
-        UserPermissionsService
+        UserPermissionsService,
       ],
     }).compile();
 
     userPermissionsService = app.get<UserPermissionsService>(UserPermissionsService);
-    user = await createUserJest()
+    await userPermissionsService.asyncPermissions();
   });
 
   describe('root', () => {  
 
     it('should create a permission', async () => {
+      const user = await createUserJest()
+      
       await userPermissionsService.create(user, adminPermission.name);
       
       const userPermissions: string[] = await userPermissionsService.getAllPermissions(user);
@@ -49,6 +48,7 @@ describe('UserController', () => {
         adminPermission.name,
         userPermission.name
       ];
+      const user = await createUserJest()
 
       await userPermissionsService.createMany(
         user, 
@@ -63,6 +63,7 @@ describe('UserController', () => {
     });
 
     it('should create and delete a permission', async () => {
+      const user = await createUserJest()
       await userPermissionsService.create(user, adminPermission.name);
       
       const userPermissions: string[] = await userPermissionsService.getAllPermissions(user);
@@ -82,6 +83,7 @@ describe('UserController', () => {
         adminPermission.name,
         userPermission.name
       ];
+      const user = await createUserJest()
 
       await userPermissionsService.createMany(
         user, 
@@ -111,6 +113,7 @@ describe('UserController', () => {
         adminPermission.name,
         userPermission.name
       ];
+      const user = await createUserJest()
 
       await userPermissionsService.createMany(
         user, 

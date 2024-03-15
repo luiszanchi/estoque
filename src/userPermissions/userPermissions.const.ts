@@ -45,5 +45,6 @@ export const allPermissionsWithoutFilter: readonly PermissionInterface[] = [
 export const allPermissionsWithDescription: readonly PermissionInterface[] = allPermissionsWithoutFilter.filter((permission: PermissionInterface) => permission.active);
 
 export const allPermissions: readonly string[] = allPermissionsWithDescription.map((permission: PermissionInterface) => permission.name);
+export const allPermissionsNameWithoutFilder: readonly string[] = allPermissionsWithDescription.map((permission: PermissionInterface) => permission.name);
 
 export const permissionExist = (permission: string): boolean => allPermissions.includes(permission);

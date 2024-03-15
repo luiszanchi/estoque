@@ -3,8 +3,11 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseTestModule } from '../database/databaseTestModule';
-import { userRepository } from './user.repository';
-import { createUserJest } from 'src/helpers/jest/createUserJest';
+import { userRepositoryProvider } from './user.repository';
+import { createUserJest } from '../helpers/jest/createUserJest';
+import { UserPermissionsService } from '../userPermissions/userPermissions.service';
+import { userPermissionsRepository } from '../userPermissions/userPermissions.repository';
+import { permissionRepository } from '../permissions/permission.repository';
 
 describe('UserController', () => {
   let userController: UserController;
@@ -20,11 +23,16 @@ describe('UserController', () => {
         DatabaseTestModule
       ],
       providers: [
-        userRepository,
+        userRepositoryProvider,
+        userPermissionsRepository,
+        permissionRepository,
+
         JwtService,
         UserService,
+        UserPermissionsService,
       ],
     }).compile();
+    
 
     userController = app.get<UserController>(UserController);
     userService = app.get<UserService>(UserService);

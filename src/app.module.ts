@@ -5,13 +5,17 @@ import { UserModule } from './user/user.module';
 import { DatabaseModule } from './database/databaseModule';
 import { UserPermissionsModule } from './userPermissions/userPermissions.module';
 import { CompanyModule } from './company/company.module';
+import { CompanyStorageModule } from './companyStorage/companyStorage.module';
+import { PermissionsModule } from './permissions/permission.module';
 
 @Module({
   imports: [
     DatabaseModule,
     UserModule,
     UserPermissionsModule,
-    CompanyModule
+    PermissionsModule,
+    CompanyModule,
+    CompanyStorageModule
   ],
   controllers: [AppController],
   providers: [AppService]

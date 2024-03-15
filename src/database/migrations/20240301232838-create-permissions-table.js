@@ -9,7 +9,8 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable('company', { 
+
+    await queryInterface.createTable('permissions', { 
       id: {
         type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
@@ -18,21 +19,15 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
-      document: {
-        type: Sequelize.STRING,
-        allowNull: false
+      description: {
+        type: Sequelize.STRING
       },
-      
-      user_id: {
-        type: Sequelize.BIGINT.UNSIGNED,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
+      active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
-      
       created_at: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -42,12 +37,8 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
         defaultValue: Sequelize.fn('NOW'),
-      },
-      deleted_at: {
-        type: Sequelize.DATE,
-        allowNull: true
-      } 
-    });
+      }
+     });
   },
 
   async down (queryInterface, Sequelize) {
@@ -57,6 +48,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('company')
+    queryInterface.dropTable('permissions')
   }
 };

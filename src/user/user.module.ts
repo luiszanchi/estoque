@@ -4,7 +4,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { userRepository } from './user.repository';
+import { userRepositoryProvider } from './user.repository';
 require('dotenv').config()
 
 
@@ -22,7 +22,7 @@ require('dotenv').config()
     providers: [
         UserService,
         JwtModule,
-        userRepository,
+        userRepositoryProvider,
     ],
     exports: [
         PassportModule,
