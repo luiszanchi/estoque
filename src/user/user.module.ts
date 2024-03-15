@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { User } from './user.model';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { userRepositoryProvider } from './user.repository';
+import { userPermissionsRepository } from '../userPermissions/userPermissions.repository';
+import { permissionRepository } from '../permissions/permission.repository';
+import { UserPermissionsService } from '../userPermissions/userPermissions.service';
 require('dotenv').config()
 
 
@@ -23,6 +26,13 @@ require('dotenv').config()
         UserService,
         JwtModule,
         userRepositoryProvider,
+
+        
+        userPermissionsRepository,
+        permissionRepository,
+
+        JwtService,
+        UserPermissionsService,
     ],
     exports: [
         PassportModule,

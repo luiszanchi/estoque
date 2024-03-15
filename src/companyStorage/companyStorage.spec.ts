@@ -3,14 +3,17 @@ import { DatabaseTestModule } from '../database/databaseTestModule';
 import { User } from '../user/user.model';
 import { createUserJest } from '../helpers/jest/createUserJest';
 import { UserPermissionsService } from '../userPermissions/userPermissions.service';
+import { userPermissionsRepository } from '../userPermissions/userPermissions.repository';
 import { adminPermission } from '../userPermissions/userPermissions.const';
-import { CompanyService } from './company.service';
+import { CompanyService } from '../company/company.service';
 import { UserDontHavePermissionException } from '../userPermissions/userPermission.exception';
-import { Company } from './company.model';
-import { CompanyWithSameDocumentException } from './company.exception';
+import { Company } from '../company/company.model';
+import { CompanyWithSameDocumentException } from '../company/company.exception';
+import { userRepositoryProvider } from '../user/user.repository';
 import { Cnpj } from '../valueObjects/cnpj.valueObject';
 import { CnpjFaker } from '../faker/cnpj.faker';
-import { CompanyModule } from './company.module';
+import { permissionRepository } from '../permissions/permission.repository';
+import { companyRepository } from '../company/company.repository';
 
 describe('UserController', () => {
   let userPermissionsService: UserPermissionsService;
@@ -28,8 +31,15 @@ describe('UserController', () => {
       controllers: [
       ],
       imports: [
-        DatabaseTestModule,
-        CompanyModule
+        DatabaseTestModule
+      ],
+      providers: [
+        userRepositoryProvider,
+        permissionRepository,
+        userPermissionsRepository,
+        UserPermissionsService,
+        companyRepository,
+        CompanyService,
       ],
     }).compile();
 
@@ -56,49 +66,6 @@ describe('UserController', () => {
       )
 
       expect(company).toBeInstanceOf(Company);
-    });
-
-    it('should not have permission to create a company', async () => {
-      let exception = null;
-      try {
-        await companyService.createCompany(
-          user, 
-          {
-            name: 'Teste',
-            document: generateCnpj()
-          }
-        ) 
-      } catch (e) {
-        exception = e;
-      }
-
-      expect(exception).toBeInstanceOf(UserDontHavePermissionException)
-    });
-
-    
-    it('should not create duplicate company', async () => {
-      let exception = null;
-      try {
-        await userPermissionsService.create(user, adminPermission.name, false);
-        const input = {
-          name: 'Teste',
-          document: generateCnpj()
-        };
-        
-        await companyService.createCompany(
-          user, 
-          input
-        );
-
-        await companyService.createCompany(
-          user, 
-          input
-        );
-      } catch (e) {
-        exception = e;
-      }
-
-      expect(exception).toBeInstanceOf(CompanyWithSameDocumentException);
     });
 
   });

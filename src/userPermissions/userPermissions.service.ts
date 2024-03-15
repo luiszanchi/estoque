@@ -146,22 +146,19 @@ export class UserPermissionsService {
         });
     }
 
-    public async getAllUserPermissions(user: User): Promise<UserPermission[]> {
+    public async getAllUserPermissions(user: User, include: string[] = []): Promise<UserPermission[]> {
         return await this.userPermissionsRepository.findAll({
             where: {
                 user_id: user.id
             },
-            include: [
-                'permission'
-            ]
+            include
         });
     }
 
     public async getAllPermissions(user: User): Promise<string[]> {
-        const userPermissions: UserPermission[] = await this.getAllUserPermissions(user);
+        const userPermissions: UserPermission[] = await this.getAllUserPermissions(user, [ 'permission' ]);
 
         return userPermissions.map((userPermission: UserPermission) => {
-            console.log('userPermission.permission.name', userPermission, userPermission.permission)
             return userPermission.permission.name
         });
     }
