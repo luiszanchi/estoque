@@ -1,12 +1,12 @@
 require('dotenv').config();
 
 const config = {
-  dialect: process.env.DB_DIALECT,
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_SCHEMA,
+  dialect: process.env.DB_DIALECT || 'mysql',
+  host: process.env.DB_HOST || 'mysql',
+  port: Number(process.env.DB_PORT) || 3306,
+  username: process.env.DB_USER || 'estoque',
+  password: process.env.DB_PASSWORD || 'estoque',
+  database: process.env.DB_SCHEMA || 'estoque',
   models: [],
 };
 

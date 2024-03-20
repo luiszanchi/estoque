@@ -23,7 +23,14 @@ install:
 start-dev:
 	@docker-compose exec app sh -c "yarn run start:dev"
 
+migrate:
+	@docker-compose exec app sh -c "sequelize-cli db:migrate"
+
+test:
+	@docker-compose exec app sh -c "yarn run test"
+
 first-install:
 	make build
 	make up
 	make install
+	make migrate

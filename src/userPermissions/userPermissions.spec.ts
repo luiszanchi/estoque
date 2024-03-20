@@ -6,6 +6,7 @@ import { UserPermissionsService } from './userPermissions.service';
 import { adminPermission, userPermission } from './userPermissions.const';
 import { userRepositoryProvider } from '../user/user.repository';
 import { permissionRepository } from '../permissions/permission.repository';
+import { UserPermissionsModule } from './userPermissions.module';
 
 describe('UserPermissions', () => {
   let userPermissionsService: UserPermissionsService;
@@ -16,13 +17,8 @@ describe('UserPermissions', () => {
       controllers: [
       ],
       imports: [
-        DatabaseTestModule
-      ],
-      providers: [
-        userRepositoryProvider,
-        permissionRepository,
-        userPermissionsRepository,
-        UserPermissionsService,
+        DatabaseTestModule,
+        UserPermissionsModule,
       ],
     }).compile();
 

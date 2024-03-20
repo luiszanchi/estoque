@@ -8,6 +8,7 @@ import { createUserJest } from '../helpers/jest/createUserJest';
 import { UserPermissionsService } from '../userPermissions/userPermissions.service';
 import { userPermissionsRepository } from '../userPermissions/userPermissions.repository';
 import { permissionRepository } from '../permissions/permission.repository';
+import { UserModule } from './user.module';
 
 describe('UserController', () => {
   let userController: UserController;
@@ -20,16 +21,8 @@ describe('UserController', () => {
         UserController
       ],
       imports: [
-        DatabaseTestModule
-      ],
-      providers: [
-        userRepositoryProvider,
-        userPermissionsRepository,
-        permissionRepository,
-
-        JwtService,
-        UserService,
-        UserPermissionsService,
+        DatabaseTestModule,
+        UserModule,
       ],
     }).compile();
     
